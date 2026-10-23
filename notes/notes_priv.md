@@ -1,0 +1,2 @@
+I can call the update of `CLAUDE.md` without installing the skills in local repo (I want to have them in global dir) using 
+```npx --yes @przeprogramowani/10x-cli@1.30.1 get m1l3 --type rules --tool claude-code --lang en```
