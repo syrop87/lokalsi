@@ -222,20 +222,20 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 
 #### Automated
 
-- [x] 2.1 Check passes against local Supabase after `supabase db reset`: `npm run rls-check`
-- [x] 2.2 Check fails when a guard is removed (deliberate break), then the break is reverted
-- [x] 2.3 Lint and format pass: `npm run lint`, `npx prettier --check scripts/rls-check.mjs`
+- [x] 2.1 Check passes against local Supabase after `supabase db reset`: `npm run rls-check` — 915e395
+- [x] 2.2 Check fails when a guard is removed (deliberate break), then the break is reverted — 915e395
+- [x] 2.3 Lint and format pass: `npm run lint`, `npx prettier --check scripts/rls-check.mjs` — 915e395
 
 #### Manual
 
-- [x] 2.4 Output reads clearly: each guarantee has its own line, and a failure names the broken guarantee
+- [x] 2.4 Output reads clearly: each guarantee has its own line, and a failure names the broken guarantee — 915e395
 
 ### Phase 3: CI wiring and hosted proof
 
 #### Automated
 
 - [ ] 3.1 CI smoke job passes on a pull request with the new rls-check step
-- [ ] 3.2 Existing checks still pass: `npm run lint`, `npx astro check`, `npm run build`
+- [x] 3.2 Existing checks still pass: `npm run lint`, `npx astro check`, `npm run build`
 
 #### Manual
 
