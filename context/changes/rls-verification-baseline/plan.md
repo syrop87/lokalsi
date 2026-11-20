@@ -209,14 +209,14 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 
 #### Automated
 
-- [ ] 1.1 Migration applies on a fresh local database: `npx supabase db reset`
-- [ ] 1.2 RLS is enabled and exactly the select and update policies exist on `public.profiles`
-- [ ] 1.3 Lint still passes: `npm run lint`
+- [x] 1.1 Migration applies on a fresh local database: `npx supabase db reset`
+- [x] 1.2 RLS is enabled and exactly the select and update policies exist on `public.profiles`
+- [x] 1.3 Lint still passes: `npm run lint`
 
 #### Manual
 
-- [ ] 1.4 Migration SQL reviewed: RLS enabled, no policy for `anon`, trigger function has a pinned `search_path`
-- [ ] 1.5 Rollback comment block present and its statements are correct
+- [x] 1.4 Migration SQL reviewed: RLS enabled, no policy for `anon`, trigger function has a pinned `search_path`
+- [x] 1.5 Rollback comment block present and its statements are correct
 
 ### Phase 2: Two-user check script
 
