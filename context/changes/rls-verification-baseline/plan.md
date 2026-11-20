@@ -209,26 +209,26 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 
 #### Automated
 
-- [x] 1.1 Migration applies on a fresh local database: `npx supabase db reset`
-- [x] 1.2 RLS is enabled and exactly the select and update policies exist on `public.profiles`
-- [x] 1.3 Lint still passes: `npm run lint`
+- [x] 1.1 Migration applies on a fresh local database: `npx supabase db reset` — d4c9df1
+- [x] 1.2 RLS is enabled and exactly the select and update policies exist on `public.profiles` — d4c9df1
+- [x] 1.3 Lint still passes: `npm run lint` — d4c9df1
 
 #### Manual
 
-- [x] 1.4 Migration SQL reviewed: RLS enabled, no policy for `anon`, trigger function has a pinned `search_path`
-- [x] 1.5 Rollback comment block present and its statements are correct
+- [x] 1.4 Migration SQL reviewed: RLS enabled, no policy for `anon`, trigger function has a pinned `search_path` — d4c9df1
+- [x] 1.5 Rollback comment block present and its statements are correct — d4c9df1
 
 ### Phase 2: Two-user check script
 
 #### Automated
 
-- [ ] 2.1 Check passes against local Supabase after `supabase db reset`: `npm run rls-check`
-- [ ] 2.2 Check fails when a guard is removed (deliberate break), then the break is reverted
-- [ ] 2.3 Lint and format pass: `npm run lint`, `npx prettier --check scripts/rls-check.mjs`
+- [x] 2.1 Check passes against local Supabase after `supabase db reset`: `npm run rls-check`
+- [x] 2.2 Check fails when a guard is removed (deliberate break), then the break is reverted
+- [x] 2.3 Lint and format pass: `npm run lint`, `npx prettier --check scripts/rls-check.mjs`
 
 #### Manual
 
-- [ ] 2.4 Output reads clearly: each guarantee has its own line, and a failure names the broken guarantee
+- [x] 2.4 Output reads clearly: each guarantee has its own line, and a failure names the broken guarantee
 
 ### Phase 3: CI wiring and hosted proof
 
