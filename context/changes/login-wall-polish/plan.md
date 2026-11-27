@@ -270,31 +270,31 @@ No data or schema changes. Existing sessions keep working. No rollback concerns 
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Production build passes: `npm run build`
-- [x] 1.3 Smoke test passes against a running dev server, including the new gate steps: `npm run smoke`
+- [x] 1.1 Linting passes: `npm run lint` — 597a4d5
+- [x] 1.2 Production build passes: `npm run build` — 597a4d5
+- [x] 1.3 Smoke test passes against a running dev server, including the new gate steps: `npm run smoke` — 597a4d5
 
 #### Manual
 
-- [x] 1.4 In a private window, opening `/` redirects to the sign-in page
-- [x] 1.5 After signing in, opening `/auth/signin` lands on `/`
-- [x] 1.6 Sign-up and sign-in still work end to end
+- [x] 1.4 In a private window, opening `/` redirects to the sign-in page — 597a4d5
+- [x] 1.5 After signing in, opening `/auth/signin` lands on `/` — 597a4d5
+- [x] 1.6 Sign-up and sign-in still work end to end — 597a4d5
 
 ### Phase 2: Polish auth flow
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Production build passes: `npm run build`
-- [ ] 2.3 Smoke test passes, including the Polish error assertion: `npm run smoke`
-- [ ] 2.4 No English UI strings remain in auth files (spot check grep returns nothing)
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Production build passes: `npm run build`
+- [x] 2.3 Smoke test passes, including the Polish error assertion: `npm run smoke`
+- [x] 2.4 No English UI strings remain in auth files (spot check grep returns nothing)
 
 #### Manual
 
-- [ ] 2.5 Sign-in and sign-up pages, validation errors and pending states read naturally in Polish
-- [ ] 2.6 Wrong password, already-registered email and too-short password each show a Polish error
-- [ ] 2.7 Password hint shows correct plural forms for 1, 2–4 and 5+ missing characters
-- [ ] 2.8 Browser tab title and `<html lang>` are Polish
+- [x] 2.5 Sign-in and sign-up pages, validation errors and pending states read naturally in Polish
+- [x] 2.6 Wrong password, already-registered email and too-short password each show a Polish error
+- [x] 2.7 Password hint shows correct plural forms for 1, 2–4 and 5+ missing characters
+- [x] 2.8 Browser tab title and `<html lang>` are Polish
 
 ### Phase 3: Polish logged-in home
 

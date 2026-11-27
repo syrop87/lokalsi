@@ -69,7 +69,7 @@ const steps = [
   [
     "signin rejects wrong password",
     () => request("/api/auth/signin", { method: "POST", form: { email, password: "wrong" } }),
-    { status: 302, location: "/auth/signin?error=" },
+    { status: 302, location: "/auth/signin?error=", error: "Nieprawidłowy e-mail lub hasło." },
   ],
   [
     "signin accepts correct password",
@@ -85,13 +85,17 @@ const steps = [
 let failed = 0;
 for (const [name, run, expected] of steps) {
   const actual = await run();
+  const actualError = new URLSearchParams(actual.location.split("?")[1] ?? "").get("error");
   const ok =
     actual.status === expected.status &&
-    (expected.location === undefined || actual.location.startsWith(expected.location));
+    (expected.location === undefined || actual.location.startsWith(expected.location)) &&
+    (expected.error === undefined || actualError === expected.error);
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}  -> ${actual.status} ${actual.location}`);
   if (!ok) {
     failed++;
     console.log(`      expected ${expected.status} ${expected.location ?? ""}`);
+    if (expected.error !== undefined)
+      console.log(`      expected error "${expected.error}", got "${actualError ?? ""}"`);
   }
 }
 
