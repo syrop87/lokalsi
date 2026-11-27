@@ -40,7 +40,7 @@ A person new to an area has no way to reach neighbours they don't know yet, so t
 | ID   | Change ID                  | Outcome (user can …)                                                        | Prerequisites | PRD refs                | Status   |
 | ---- | -------------------------- | --------------------------------------------------------------------------- | ------------- | ----------------------- | -------- |
 | F-01 | rls-verification-baseline  | (foundation) author-only data access rules proven on a first table          | —             | Access Control, FR-007  | done     |
-| S-01 | login-wall-polish          | sign up, stay logged in, log out, and see nothing without login, in Polish  | —             | FR-001, FR-002          | ready    |
+| S-01 | login-wall-polish          | sign up, stay logged in, log out, and see nothing without login, in Polish  | —             | FR-001, FR-002          | in-progress |
 | S-03 | post-event-on-map          | post an event with a map pin and see it on the neighbourhood map            | S-01, F-01    | FR-004, FR-006, FR-014  | blocked  |
 | S-04 | event-details              | open a pin and see the event's details and who created it                   | S-03          | FR-005, US-01           | proposed |
 | S-05 | join-event                 | join and leave a neighbour's event and see who has joined                   | S-04          | FR-008, FR-009, FR-010, US-01 | proposed |
@@ -96,7 +96,7 @@ What's already in place in the codebase as of 2026-11-20 (auto-researched + user
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Auth already exists, so this is mostly gating the whole site and Polish text; sequenced first because every later slice assumes a logged-in user.
-- **Status:** ready
+- **Status:** in-progress
 
 ### S-03: Post an event and see it on the map
 
