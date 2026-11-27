@@ -60,7 +60,6 @@ async function request(path, { method = "GET", form } = {}) {
 const steps = [
   ["home redirects anonymous user", () => request("/"), { status: 302, location: "/auth/signin" }],
   ["sample api route rejects anonymous user", () => request("/api/nonexistent-probe"), { status: 401 }],
-  ["dashboard redirects anonymous user", () => request("/dashboard"), { status: 302, location: "/auth/signin" }],
   [
     "signup creates account",
     () => request("/api/auth/signup", { method: "POST", form: { email, password } }),
@@ -77,9 +76,9 @@ const steps = [
     { status: 302, location: "/" },
   ],
   ["signed-in user bounces off signin page", () => request("/auth/signin"), { status: 302, location: "/" }],
-  ["dashboard renders for signed-in user", () => request("/dashboard"), { status: 200 }],
+  ["home renders for signed-in user", () => request("/"), { status: 200 }],
   ["signout clears session", () => request("/api/auth/signout", { method: "POST" }), { status: 302, location: "/" }],
-  ["dashboard redirects after signout", () => request("/dashboard"), { status: 302, location: "/auth/signin" }],
+  ["home redirects after signout", () => request("/"), { status: 302, location: "/auth/signin" }],
 ];
 
 let failed = 0;

@@ -284,31 +284,31 @@ No data or schema changes. Existing sessions keep working. No rollback concerns 
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Production build passes: `npm run build`
-- [x] 2.3 Smoke test passes, including the Polish error assertion: `npm run smoke`
-- [x] 2.4 No English UI strings remain in auth files (spot check grep returns nothing)
+- [x] 2.1 Linting passes: `npm run lint` — 94d9571
+- [x] 2.2 Production build passes: `npm run build` — 94d9571
+- [x] 2.3 Smoke test passes, including the Polish error assertion: `npm run smoke` — 94d9571
+- [x] 2.4 No English UI strings remain in auth files (spot check grep returns nothing) — 94d9571
 
 #### Manual
 
-- [x] 2.5 Sign-in and sign-up pages, validation errors and pending states read naturally in Polish
-- [x] 2.6 Wrong password, already-registered email and too-short password each show a Polish error
-- [x] 2.7 Password hint shows correct plural forms for 1, 2–4 and 5+ missing characters
-- [x] 2.8 Browser tab title and `<html lang>` are Polish
+- [x] 2.5 Sign-in and sign-up pages, validation errors and pending states read naturally in Polish — 94d9571
+- [x] 2.6 Wrong password, already-registered email and too-short password each show a Polish error — 94d9571
+- [x] 2.7 Password hint shows correct plural forms for 1, 2–4 and 5+ missing characters — 94d9571
+- [x] 2.8 Browser tab title and `<html lang>` are Polish — 94d9571
 
 ### Phase 3: Polish logged-in home
 
 #### Automated
 
-- [ ] 3.1 Linting passes: `npm run lint`
-- [ ] 3.2 Formatting is clean: `npm run format -- --check`
-- [ ] 3.3 Production build passes: `npm run build`
-- [ ] 3.4 Smoke test passes against a running server: `npm run smoke`
-- [ ] 3.5 No dangling references to dashboard, Welcome or Topbar in `src` and `scripts`
+- [x] 3.1 Linting passes: `npm run lint`
+- [x] 3.2 Formatting is clean: `npm run format -- --check`
+- [x] 3.3 Production build passes: `npm run build`
+- [x] 3.4 Smoke test passes against a running server: `npm run smoke`
+- [x] 3.5 No dangling references to dashboard, Welcome or Topbar in `src` and `scripts`
 
 #### Manual
 
-- [ ] 3.6 Sign up, land on the Polish home, close and reopen the browser, and still be signed in
-- [ ] 3.7 "Wyloguj" returns to the sign-in page and the home is no longer reachable
-- [ ] 3.8 In a private window, every sampled route redirects to sign-in and `/api/anything` returns 401
-- [ ] 3.9 Walking through every screen shows no English text
+- [x] 3.6 Sign up, land on the Polish home, close and reopen the browser, and still be signed in
+- [x] 3.7 "Wyloguj" returns to the sign-in page and the home is no longer reachable
+- [x] 3.8 In a private window, every sampled route redirects to sign-in and `/api/anything` returns 401
+- [x] 3.9 Walking through every screen shows no English text

@@ -1,7 +1,7 @@
 // RLS check: proves the author-only rules on public.profiles with two real users.
 // Zero dependencies on purpose. Works against local, CI and hosted Supabase:
 //   SUPABASE_URL=http://127.0.0.1:54321 SUPABASE_KEY=<anon key> node scripts/rls-check.mjs
-// Hosted runs leave two `rls-check-*` users in auth: delete them from the dashboard afterwards.
+// Hosted runs leave two `rls-check-*` users in auth: delete them from the Supabase console afterwards.
 
 import { randomUUID } from "node:crypto";
 
