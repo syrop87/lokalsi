@@ -6,6 +6,28 @@ const email = `smoke-${Date.now()}@example.com`;
 const password = "Smoke-Test-Passw0rd!";
 const jar = new Map();
 
+// Safety guard: never sign up smoke users in a non-local Supabase by accident.
+// A script cannot see which Supabase the server uses, so this reads the config file the server would load:
+// .dev.vars.local with `--local` (server started via `npm run dev:local`), otherwise .dev.vars.
+// Skipped for a non-localhost BASE_URL. Override deliberately with SMOKE_ALLOW_HOSTED=1.
+if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(BASE_URL) && process.env.SMOKE_ALLOW_HOSTED !== "1") {
+  const file = process.argv.includes("--local") ? ".dev.vars.local" : ".dev.vars";
+  let url = "";
+  try {
+    const { readFileSync } = await import("node:fs");
+    url = /^SUPABASE_URL=(.*)$/m.exec(readFileSync(file, "utf8"))?.[1].trim() ?? "";
+  } catch {
+    // no config file (e.g. env-only setup): nothing to check
+  }
+  if (url && !/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(url)) {
+    console.error(
+      `Refusing to run: ${file} points SUPABASE_URL at a non-local host (${url.split("//")[1]?.split("/")[0] ?? url}).`,
+    );
+    console.error("Use `npm run dev:local` + `npm run smoke:local`, or set SMOKE_ALLOW_HOSTED=1 to allow it.");
+    process.exit(2);
+  }
+}
+
 function cookieHeader() {
   return [...jar.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
 }
