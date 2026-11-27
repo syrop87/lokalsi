@@ -2,8 +2,9 @@ import { defineMiddleware } from "astro:middleware";
 import { createClient } from "@/lib/supabase";
 
 // Default-deny: anything not matched here requires a session. Add public routes deliberately.
+// Note: "/auth/" is a prefix, so every page added under /auth/ is public by default.
 const PUBLIC_PATH_PREFIXES = ["/auth/", "/_astro/"];
-const PUBLIC_PATHS_EXACT = ["/api/auth/signin", "/api/auth/signup", "/favicon.png"];
+const PUBLIC_PATHS_EXACT = ["/api/auth/signin", "/api/auth/signup", "/api/auth/signout", "/favicon.png"];
 const SIGNED_OUT_ONLY_PATHS = ["/auth/signin", "/auth/signup"];
 
 function isPublicPath(pathname: string): boolean {

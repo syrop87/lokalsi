@@ -1,13 +1,16 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
-import { polishAuthError, SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/auth-errors";
+import { polishAuthError, INVALID_FORM_MESSAGE, SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/auth-errors";
+import { readCredentials } from "@/lib/auth-form";
 
 export const prerender = false;
 
 export const POST: APIRoute = async (context) => {
-  const form = await context.request.formData();
-  const email = form.get("email") as string;
-  const password = form.get("password") as string;
+  const credentials = await readCredentials(context.request);
+  if (!credentials) {
+    return context.redirect(`/auth/signup?error=${encodeURIComponent(INVALID_FORM_MESSAGE)}`);
+  }
+  const { email, password } = credentials;
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {

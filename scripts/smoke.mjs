@@ -9,15 +9,23 @@ const jar = new Map();
 // Safety guard: never sign up smoke users in a non-local Supabase by accident.
 // A script cannot see which Supabase the server uses, so this reads the config file the server would load:
 // .dev.vars.local with `--local` (server started via `npm run dev:local`), otherwise .dev.vars.
+// Best-effort only: it cannot tell whether the running server was really started with that file
+// (e.g. `smoke:local` against a server started with plain `npm run dev` is not detected).
 // Skipped for a non-localhost BASE_URL. Override deliberately with SMOKE_ALLOW_HOSTED=1.
 if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(BASE_URL) && process.env.SMOKE_ALLOW_HOSTED !== "1") {
-  const file = process.argv.includes("--local") ? ".dev.vars.local" : ".dev.vars";
+  const isLocalRun = process.argv.includes("--local");
+  const file = isLocalRun ? ".dev.vars.local" : ".dev.vars";
   let url = "";
   try {
     const { readFileSync } = await import("node:fs");
     url = /^SUPABASE_URL=(.*)$/m.exec(readFileSync(file, "utf8"))?.[1].trim() ?? "";
   } catch {
-    // no config file (e.g. env-only setup): nothing to check
+    // Without .dev.vars.local the dev server would fall back to .dev.vars (hosted), so a missing file is an error.
+    if (isLocalRun) {
+      console.error(`Refusing to run: ${file} not found. Create it from \`npx supabase status -o env\` first.`);
+      process.exit(2);
+    }
+    // plain run with no .dev.vars (e.g. env-only setup): nothing to check
   }
   if (url && !/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(url)) {
     console.error(

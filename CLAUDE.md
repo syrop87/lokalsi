@@ -32,7 +32,7 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 ### Auth flow
 
 - `src/lib/supabase.ts` — creates a Supabase SSR client using `@supabase/ssr` with cookie-based sessions. Uses `astro:env/server` for `SUPABASE_URL` and `SUPABASE_KEY` (server-only secrets declared in astro.config.mjs `env.schema`).
-- `src/middleware.ts` — runs on every request, resolves the current user, attaches to `context.locals.user`. Default-deny with an allowlist; public: `/auth/*`, `POST /api/auth/signin`, `/api/auth/signup`, static assets. Anonymous page requests redirect to `/auth/signin`, other `/api/*` requests return 401; signed-in users on `/auth/signin|signup` redirect to `/`.
+- `src/middleware.ts` — runs on every request, resolves the current user, attaches to `context.locals.user`. Default-deny with an allowlist; public (any method): `/auth/*`, `/api/auth/{signin,signup,signout}`, static assets. Anonymous page requests redirect to `/auth/signin`, other `/api/*` requests return 401; signed-in users on `/auth/signin|signup` redirect to `/`.
 - `src/lib/auth-errors.ts` — maps Supabase auth errors to Polish user-facing messages.
 - API endpoints: `src/pages/api/auth/{signin,signup,signout}.ts`
 - Auth pages: `src/pages/auth/{signin,signup,confirm-email}.astro`

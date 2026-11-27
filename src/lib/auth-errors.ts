@@ -1,4 +1,5 @@
 export const SUPABASE_NOT_CONFIGURED_MESSAGE = "Usługa logowania nie jest skonfigurowana.";
+export const INVALID_FORM_MESSAGE = "Wypełnij wszystkie pola.";
 
 const GENERIC_MESSAGES = {
   signin: "Nie udało się zalogować. Spróbuj ponownie.",
