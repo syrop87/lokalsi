@@ -56,6 +56,7 @@ Add the first migration: `profiles` table, RLS, policies, signup trigger.
 **Intent**: Create the table that carries the author-only pattern and make sure every new auth user gets exactly one row. Include a comment block with the manual rollback statements (drop trigger, function, table) because rollback of schema is not automatic.
 
 **Contract**:
+
 - `public.profiles(id uuid primary key references auth.users(id) on delete cascade, display_name text, created_at timestamptz not null default now())`.
 - `alter table public.profiles enable row level security`.
 - Policies, one per operation and role: `select` to `authenticated` using `true`; `update` to `authenticated` using and with check `id = (select auth.uid())`. No `insert` or `delete` policy for `authenticated`; no policy of any kind for `anon`.
@@ -93,6 +94,7 @@ A dependency-free script that proves the author-only rules from the outside.
 **Intent**: Follow the style of `scripts/smoke.mjs` (no dependencies, `fetch`, named steps, non-zero exit on first failed expectation). Sign up users A and B with unique emails, then exercise PostgREST as each.
 
 **Contract**: Reads `SUPABASE_URL` and `SUPABASE_KEY` (anon key) from the environment; fails fast with a clear message if either is missing. Steps and expected outcomes:
+
 1. A and B sign up (`/auth/v1/signup`), each gets an access token; each has a profile row (trigger worked).
 2. As A: `select` sees both rows.
 3. As A: update own row succeeds and returns the changed row.
@@ -165,6 +167,7 @@ Run the check on every push/PR and once against the real hosted database.
 - `npm run rls-check` passes against the hosted project
 - The two test users created by the hosted run were deleted from the dashboard
 - Anonymous request to the hosted `/rest/v1/profiles` returns an empty array
+- Cloudflare "Workers Builds: lokalsi" check passes on the PR (added after PR #1: the non-production deploy command `wrangler preview` fails on the SESSION KV binding; see change.md Notes)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding.
 
@@ -234,8 +237,8 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 
 #### Automated
 
-- [ ] 3.1 CI smoke job passes on a pull request with the new rls-check step
-- [x] 3.2 Existing checks still pass: `npm run lint`, `npx astro check`, `npm run build`
+- [x] 3.1 CI smoke job passes on a pull request with the new rls-check step — bc7c6d6
+- [x] 3.2 Existing checks still pass: `npm run lint`, `npx astro check`, `npm run build` — bc7c6d6
 
 #### Manual
 
@@ -243,3 +246,4 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 - [ ] 3.4 `npm run rls-check` passes against the hosted project
 - [ ] 3.5 The two test users created by the hosted run were deleted from the dashboard
 - [ ] 3.6 Anonymous request to the hosted `/rest/v1/profiles` returns an empty array
+- [ ] 3.7 Cloudflare "Workers Builds: lokalsi" check passes on the PR (added after PR #1: the non-production deploy command `wrangler preview` fails on the SESSION KV binding; see change.md Notes)
