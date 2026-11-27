@@ -1,10 +1,10 @@
 ---
 change_id: rls-verification-baseline
 title: RLS verification baseline (F-01)
-status: implementing
+status: archived
 created: 2026-11-20
 updated: 2026-11-27
-archived_at: null
+archived_at: 2026-11-27T09:00:21Z
 ---
 
 ## Notes

@@ -3,7 +3,7 @@ project: Lokalsi
 version: 1
 status: draft
 created: 2026-11-20
-updated: 2026-11-20
+updated: 2026-11-27
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -39,7 +39,7 @@ A person new to an area has no way to reach neighbours they don't know yet, so t
 
 | ID   | Change ID                  | Outcome (user can …)                                                        | Prerequisites | PRD refs                | Status   |
 | ---- | -------------------------- | --------------------------------------------------------------------------- | ------------- | ----------------------- | -------- |
-| F-01 | rls-verification-baseline  | (foundation) author-only data access rules proven on a first table          | —             | Access Control, FR-007  | in-progress |
+| F-01 | rls-verification-baseline  | (foundation) author-only data access rules proven on a first table          | —             | Access Control, FR-007  | done     |
 | S-01 | login-wall-polish          | sign up, stay logged in, log out, and see nothing without login, in Polish  | —             | FR-001, FR-002          | ready    |
 | S-03 | post-event-on-map          | post an event with a map pin and see it on the neighbourhood map            | S-01, F-01    | FR-004, FR-006, FR-014  | blocked  |
 | S-04 | event-details              | open a pin and see the event's details and who created it                   | S-03          | FR-005, US-01           | proposed |
@@ -82,7 +82,7 @@ What's already in place in the codebase as of 2026-11-20 (auto-researched + user
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Data is absent and per-role access rules are easy to get wrong when new to the tooling; proving the pattern once keeps later slices from each inventing it. It deliberately stops at the pattern and the check — the real tables arrive with S-02 and S-03.
-- **Status:** in-progress
+- **Status:** done
 
 ## Slices
 
@@ -206,3 +206,5 @@ What's already in place in the codebase as of 2026-11-20 (auto-researched + user
 ## Milestone History
 
 ## Done
+
+- **F-01: (foundation) a migration workflow is proven against the hosted database, and a repeatable two-user check shows that only an author can change their own row** — Archived 2026-11-27 → `context/archive/2026-11-20-rls-verification-baseline/`. Lesson: —. Note: archived with hosted-project proof (plan rows 3.3–3.6: `supabase db push`, hosted `rls-check`, test-user cleanup, anon REST check) not ticked; see the archived `runbook.md`.
