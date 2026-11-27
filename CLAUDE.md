@@ -32,10 +32,11 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 ### Auth flow
 
 - `src/lib/supabase.ts` — creates a Supabase SSR client using `@supabase/ssr` with cookie-based sessions. Uses `astro:env/server` for `SUPABASE_URL` and `SUPABASE_KEY` (server-only secrets declared in astro.config.mjs `env.schema`).
-- `src/middleware.ts` — runs on every request, resolves the current user, attaches to `context.locals.user`. Redirects unauthenticated users away from routes listed in `PROTECTED_ROUTES`.
+- `src/middleware.ts` — runs on every request, resolves the current user, attaches to `context.locals.user`. Default-deny with an allowlist; public (any method): `/auth/*`, `/api/auth/{signin,signup,signout}`, static assets. Anonymous page requests redirect to `/auth/signin`, other `/api/*` requests return 401; signed-in users on `/auth/signin|signup` redirect to `/`.
+- `src/lib/auth-errors.ts` — maps Supabase auth errors to Polish user-facing messages.
 - API endpoints: `src/pages/api/auth/{signin,signup,signout}.ts`
 - Auth pages: `src/pages/auth/{signin,signup,confirm-email}.astro`
-- Protected page example: `src/pages/dashboard.astro`
+- Logged-in home: `src/pages/index.astro`
 
 ### Key conventions
 
@@ -60,7 +61,6 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 
 GitHub Actions workflow (`.github/workflows/ci.yml`) runs lint + build on every push and PR to main. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
 
-
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
 ## 10xDevs AI Toolkit - Module 2, Lesson 2
@@ -75,18 +75,18 @@ Turn one roadmap item into the first implementation cycle with the **change plan
 
 ### Task Router - Where to start
 
-| Skill | Use it when |
-| --- | --- |
-| **Change setup (lesson focus)** | |
-| `/10x-new <change-id>` | You selected a roadmap item and need a stable change folder. Creates `context/changes/<change-id>/change.md` so planning, implementation, progress, commits, and later review all share one identity. Use AFTER roadmap selection, BEFORE `/10x-plan`. |
-| **Planning (lesson focus)** | |
-| `/10x-plan <change-id>` | You have a change folder and need a reviewable implementation plan. Reads roadmap context, foundation docs, codebase evidence, and any existing change notes; writes `plan.md` and `plan-brief.md` with phases, file contracts, success criteria, and `## Progress`. |
-| **Plan readiness (lesson focus)** | |
-| `/10x-plan-review <change-id>` | You have `plan.md` and need a light pre-code readiness check. Use it to catch missing end state, weak contracts, malformed progress, scope drift, or blind spots before code changes begin. |
-| **Implementation (lesson focus)** | |
-| `/10x-implement <change-id> phase <n>` | You have an approved plan and want to execute one phase with verification, manual gate, commit ritual, and SHA write-back to `## Progress`. |
-| **Lifecycle closure** | |
-| `/10x-archive <change-id>` | A change is merged or intentionally closed. Move it out of active `context/changes/` into archive state. |
+| Skill                                  | Use it when                                                                                                                                                                                                                                                          |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Change setup (lesson focus)**        |                                                                                                                                                                                                                                                                      |
+| `/10x-new <change-id>`                 | You selected a roadmap item and need a stable change folder. Creates `context/changes/<change-id>/change.md` so planning, implementation, progress, commits, and later review all share one identity. Use AFTER roadmap selection, BEFORE `/10x-plan`.               |
+| **Planning (lesson focus)**            |                                                                                                                                                                                                                                                                      |
+| `/10x-plan <change-id>`                | You have a change folder and need a reviewable implementation plan. Reads roadmap context, foundation docs, codebase evidence, and any existing change notes; writes `plan.md` and `plan-brief.md` with phases, file contracts, success criteria, and `## Progress`. |
+| **Plan readiness (lesson focus)**      |                                                                                                                                                                                                                                                                      |
+| `/10x-plan-review <change-id>`         | You have `plan.md` and need a light pre-code readiness check. Use it to catch missing end state, weak contracts, malformed progress, scope drift, or blind spots before code changes begin.                                                                          |
+| **Implementation (lesson focus)**      |                                                                                                                                                                                                                                                                      |
+| `/10x-implement <change-id> phase <n>` | You have an approved plan and want to execute one phase with verification, manual gate, commit ritual, and SHA write-back to `## Progress`.                                                                                                                          |
+| **Lifecycle closure**                  |                                                                                                                                                                                                                                                                      |
+| `/10x-archive <change-id>`             | A change is merged or intentionally closed. Move it out of active `context/changes/` into archive state.                                                                                                                                                             |
 
 ### How the chain hands off
 

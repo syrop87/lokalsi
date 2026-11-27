@@ -6,6 +6,36 @@ const email = `smoke-${Date.now()}@example.com`;
 const password = "Smoke-Test-Passw0rd!";
 const jar = new Map();
 
+// Safety guard: never sign up smoke users in a non-local Supabase by accident.
+// A script cannot see which Supabase the server uses, so this reads the config file the server would load:
+// .dev.vars.local with `--local` (server started via `npm run dev:local`), otherwise .dev.vars.
+// Best-effort only: it cannot tell whether the running server was really started with that file
+// (e.g. `smoke:local` against a server started with plain `npm run dev` is not detected).
+// Skipped for a non-localhost BASE_URL. Override deliberately with SMOKE_ALLOW_HOSTED=1.
+if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(BASE_URL) && process.env.SMOKE_ALLOW_HOSTED !== "1") {
+  const isLocalRun = process.argv.includes("--local");
+  const file = isLocalRun ? ".dev.vars.local" : ".dev.vars";
+  let url = "";
+  try {
+    const { readFileSync } = await import("node:fs");
+    url = /^SUPABASE_URL=(.*)$/m.exec(readFileSync(file, "utf8"))?.[1].trim() ?? "";
+  } catch {
+    // Without .dev.vars.local the dev server would fall back to .dev.vars (hosted), so a missing file is an error.
+    if (isLocalRun) {
+      console.error(`Refusing to run: ${file} not found. Create it from \`npx supabase status -o env\` first.`);
+      process.exit(2);
+    }
+    // plain run with no .dev.vars (e.g. env-only setup): nothing to check
+  }
+  if (url && !/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(url)) {
+    console.error(
+      `Refusing to run: ${file} points SUPABASE_URL at a non-local host (${url.split("//")[1]?.split("/")[0] ?? url}).`,
+    );
+    console.error("Use `npm run dev:local` + `npm run smoke:local`, or set SMOKE_ALLOW_HOSTED=1 to allow it.");
+    process.exit(2);
+  }
+}
+
 function cookieHeader() {
   return [...jar.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
 }
@@ -36,8 +66,8 @@ async function request(path, { method = "GET", form } = {}) {
 }
 
 const steps = [
-  ["home renders", () => request("/"), { status: 200 }],
-  ["dashboard redirects anonymous user", () => request("/dashboard"), { status: 302, location: "/auth/signin" }],
+  ["home redirects anonymous user", () => request("/"), { status: 302, location: "/auth/signin" }],
+  ["sample api route rejects anonymous user", () => request("/api/nonexistent-probe"), { status: 401 }],
   [
     "signup creates account",
     () => request("/api/auth/signup", { method: "POST", form: { email, password } }),
@@ -46,28 +76,33 @@ const steps = [
   [
     "signin rejects wrong password",
     () => request("/api/auth/signin", { method: "POST", form: { email, password: "wrong" } }),
-    { status: 302, location: "/auth/signin?error=" },
+    { status: 302, location: "/auth/signin?error=", error: "Nieprawidłowy e-mail lub hasło." },
   ],
   [
     "signin accepts correct password",
     () => request("/api/auth/signin", { method: "POST", form: { email, password } }),
     { status: 302, location: "/" },
   ],
-  ["dashboard renders for signed-in user", () => request("/dashboard"), { status: 200 }],
+  ["signed-in user bounces off signin page", () => request("/auth/signin"), { status: 302, location: "/" }],
+  ["home renders for signed-in user", () => request("/"), { status: 200 }],
   ["signout clears session", () => request("/api/auth/signout", { method: "POST" }), { status: 302, location: "/" }],
-  ["dashboard redirects after signout", () => request("/dashboard"), { status: 302, location: "/auth/signin" }],
+  ["home redirects after signout", () => request("/"), { status: 302, location: "/auth/signin" }],
 ];
 
 let failed = 0;
 for (const [name, run, expected] of steps) {
   const actual = await run();
+  const actualError = new URLSearchParams(actual.location.split("?")[1] ?? "").get("error");
   const ok =
     actual.status === expected.status &&
-    (expected.location === undefined || actual.location.startsWith(expected.location));
+    (expected.location === undefined || actual.location.startsWith(expected.location)) &&
+    (expected.error === undefined || actualError === expected.error);
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}  -> ${actual.status} ${actual.location}`);
   if (!ok) {
     failed++;
     console.log(`      expected ${expected.status} ${expected.location ?? ""}`);
+    if (expected.error !== undefined)
+      console.log(`      expected error "${expected.error}", got "${actualError ?? ""}"`);
   }
 }
 
