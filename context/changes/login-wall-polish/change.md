@@ -1,7 +1,7 @@
 ---
 change_id: login-wall-polish
 title: Whole-site login wall with Polish interface
-status: implementing
+status: implemented
 created: 2026-11-27
 updated: 2026-11-27
 archived_at: null

@@ -300,15 +300,15 @@ No data or schema changes. Existing sessions keep working. No rollback concerns 
 
 #### Automated
 
-- [x] 3.1 Linting passes: `npm run lint`
-- [x] 3.2 Formatting is clean: `npm run format -- --check`
-- [x] 3.3 Production build passes: `npm run build`
-- [x] 3.4 Smoke test passes against a running server: `npm run smoke`
-- [x] 3.5 No dangling references to dashboard, Welcome or Topbar in `src` and `scripts`
+- [x] 3.1 Linting passes: `npm run lint` — fbe6d9a
+- [x] 3.2 Formatting is clean: `npm run format -- --check` — fbe6d9a
+- [x] 3.3 Production build passes: `npm run build` — fbe6d9a
+- [x] 3.4 Smoke test passes against a running server: `npm run smoke` — fbe6d9a
+- [x] 3.5 No dangling references to dashboard, Welcome or Topbar in `src` and `scripts` — fbe6d9a
 
 #### Manual
 
-- [x] 3.6 Sign up, land on the Polish home, close and reopen the browser, and still be signed in
-- [x] 3.7 "Wyloguj" returns to the sign-in page and the home is no longer reachable
-- [x] 3.8 In a private window, every sampled route redirects to sign-in and `/api/anything` returns 401
-- [x] 3.9 Walking through every screen shows no English text
+- [x] 3.6 Sign up, land on the Polish home, close and reopen the browser, and still be signed in — fbe6d9a
+- [x] 3.7 "Wyloguj" returns to the sign-in page and the home is no longer reachable — fbe6d9a
+- [x] 3.8 In a private window, every sampled route redirects to sign-in and `/api/anything` returns 401 — fbe6d9a
+- [x] 3.9 Walking through every screen shows no English text — fbe6d9a
