@@ -246,4 +246,4 @@ First migration in the repo. Applied locally by `supabase start` / `db reset`, t
 - [ ] 3.4 `npm run rls-check` passes against the hosted project
 - [ ] 3.5 The two test users created by the hosted run were deleted from the dashboard
 - [ ] 3.6 Anonymous request to the hosted `/rest/v1/profiles` returns an empty array
-- [ ] 3.7 Cloudflare "Workers Builds: lokalsi" check passes on the PR (added after PR #1: the non-production deploy command `wrangler preview` fails on the SESSION KV binding; see change.md Notes)
+- [x] 3.7 Cloudflare "Workers Builds: lokalsi" check passes on the PR (added after PR #1: the non-production deploy command `wrangler preview` fails on the SESSION KV binding; see change.md Notes)
