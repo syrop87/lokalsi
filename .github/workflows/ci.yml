@@ -34,7 +34,7 @@ jobs:
           cache: npm
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.117.0
       - run: npm ci
       - name: Start local Supabase
         run: |
@@ -51,5 +51,9 @@ jobs:
           npm run preview -- --port 4321 &
           for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:4321/ && break; sleep 1; done
           BASE_URL=http://localhost:4321 npm run smoke
+      - name: Run RLS check against local Supabase
+        run: |
+          source supabase.env
+          SUPABASE_URL=$API_URL SUPABASE_KEY=$ANON_KEY npm run rls-check
       - if: always()
         run: supabase stop --no-backup
